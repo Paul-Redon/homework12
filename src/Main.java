@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Main {
     public static void main(String[] args) {
         checkLeapYear(2026);
@@ -6,7 +8,8 @@ public class Main {
         checkLeapYear(1930);
         checkAppVersion(0, 2023);
         checkAppVersion(1, 2026);
-        checkAppVersion(0, 2020);
+        checkAppVersion(0, 2026);
+        checkAppVersion(1, 2020);
         int deliveryDistance = 95;
         int days = calculateDeliveryDays(deliveryDistance);
         System.out.println("Потребуется дней: " + days);
@@ -19,18 +22,24 @@ public class Main {
         }
     }
     public static void checkAppVersion(int osType, int deviceYear) {
-        int currentYear = 2026;
+        int currentYear = LocalDate.now().getYear();
         String osName;
         if (osType == 0) {
             osName = "iOS";
-        } else {
+        } else if (osType == 1) {
             osName = "Android";
-        }
-        if (deviceYear < currentYear) {
-            System.out.println("Установите облегченную версию приложения для " + osName);
         } else {
-            System.out.println("Установите обычную версию приложения для " + osName);
+            System.out.println("Ошибка: неизвестный тип ОС. Используйте 0 (iOS) или 1 (Android).");
+            return;
         }
+        String version;
+        if (deviceYear < currentYear) {
+            version = "облегченную версию";
+        } else {
+            version = "обычную версию";
+        }
+        System.out.println("Установите " + version + " приложения для " + osName +
+                " (устройство " + deviceYear + " года)");
     }
     public static int calculateDeliveryDays(int distance) {
         if (distance <= 20) {
